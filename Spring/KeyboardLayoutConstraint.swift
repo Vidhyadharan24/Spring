@@ -50,8 +50,12 @@ public class KeyboardLayoutConstraint: NSLayoutConstraint {
             if let frameValue = userInfo[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue {
                 let frame = frameValue.cgRectValue
                 
-                let bottomSafeAreaInset = UIApplication.shared.keyWindow?.safeAreaInsets.bottom ?? 0
-                keyboardVisibleHeight = frame.size.height - bottomSafeAreaInset
+                if #available(iOS 11.0, *) {
+                    let bottomSafeAreaInset = UIApplication.shared.keyWindow?.safeAreaInsets.bottom ?? 0
+                    keyboardVisibleHeight = frame.size.height - bottomSafeAreaInset
+                } else {
+                    keyboardVisibleHeight = frame.size.height
+                }
             }
             
             self.updateConstant()
